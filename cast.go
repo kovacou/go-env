@@ -35,6 +35,11 @@ func toUint64(v string) uint64 {
 	return uint64(toInt64(v))
 }
 
+func toFloat32(v string) float32 {
+	out, _ := strconv.ParseFloat(v, 32)
+	return float32(out)
+}
+
 func toFloat64(v string) float64 {
 	out, _ := strconv.ParseFloat(v, 64)
 	return out
