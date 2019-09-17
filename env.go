@@ -204,10 +204,14 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 		vf.SetString(v)
 	case reflect.Bool:
 		vf.SetBool(toBool(v))
-	case reflect.Int:
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		vf.SetInt(toInt64(v))
-	case reflect.Uint:
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		vf.SetUint(toUint64(v))
+	case reflect.Float64:
+		vf.SetFloat(toFloat64(v))
+	case reflect.Float32:
+		vf.SetFloat(float64(toFloat32(v)))
 	default:
 		err = errors.New("field type is not supported")
 	}
