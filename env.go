@@ -11,6 +11,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"time"
 )
 
 // Parse the env variable and trim spaces.
@@ -80,8 +81,6 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 		if err = setValue(t.Elem(), ptr.Elem(), v); err == nil {
 			vf.Set(ptr)
 		}
-
-	// Special case for maps :
 	case reflect.Map:
 		vm := map[string]string{}
 
@@ -140,8 +139,6 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 		default:
 			err = errors.New("field type is not supported")
 		}
-
-	// Special case for Slice :
 	case reflect.Slice:
 		vs := strings.Split(v, ",")
 		n := len(vs)
@@ -194,18 +191,20 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 		default:
 			err = errors.New("field type is not supported")
 		}
-
-	// Duration type
-	case reflect.Struct:
-		// Do the type of duration.
-
-	// Atomic types
 	case reflect.String:
 		vf.SetString(v)
 	case reflect.Bool:
 		vf.SetBool(toBool(v))
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		vf.SetInt(toInt64(v))
+		switch t.String() {
+		case "time.Duration":
+			var d time.Duration
+			if d, err = time.ParseDuration(v); err == nil {
+				vf.Set(reflect.ValueOf(d))
+			}
+		default:
+			vf.SetInt(toInt64(v))
+		}
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		vf.SetUint(toUint64(v))
 	case reflect.Float64:
@@ -213,7 +212,7 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 	case reflect.Float32:
 		vf.SetFloat(float64(toFloat32(v)))
 	default:
-		err = errors.New("field type is not supported")
+
 	}
 
 	return
