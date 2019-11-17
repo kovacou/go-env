@@ -198,8 +198,12 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		switch t.String() {
 		case "time.Duration":
-			var d time.Duration
-			if d, err = time.ParseDuration(v); err == nil {
+			var (
+				d    time.Duration
+				dErr error
+			)
+
+			if d, dErr = time.ParseDuration(v); dErr == nil {
 				vf.Set(reflect.ValueOf(d))
 			}
 		default:
@@ -212,7 +216,6 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 	case reflect.Float32:
 		vf.SetFloat(float64(toFloat32(v)))
 	default:
-
 	}
 
 	return
