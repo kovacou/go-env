@@ -46,7 +46,17 @@ func main() {
 ```
 ## ➡ **Supported types**
 
-- Atomic types (`string`, `int`, `uint`, `float`, `bool` and `interface{}`)
+- Atomic types :
+    - `string`, `*string`, 
+    - `int`, `*int`, 
+    - `uint`, `*uint`,
+    - `int64`, `*int64`, 
+    - `uint64`, `*uint64`, 
+    - `float64`, `*float64`, 
+    - `bool`, `*bool`
+    - `interface{}`
+- Special types :
+    - `time.Duration`, `*time.Duration`
 - Maps :
     - `map[string]interface{}`
     - `map[string]bool`
