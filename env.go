@@ -197,7 +197,7 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		switch t.String() {
 		case "time.Duration":
-			vf.Set(reflect.ValueOf(toDuration(v + "s")))
+			vf.Set(reflect.ValueOf(toDuration(v)))
 		default:
 			vf.SetInt(toInt64(v))
 		}
