@@ -1,5 +1,7 @@
 # github.com/kovacou/go-env
 
+Personal project.
+
 You can automatically load your environment variable into specific struct by using the tag `env:""` and calling the function `env.Unmarshal()`.
 
 **Note:** The package doesn't check the validity of the data.
