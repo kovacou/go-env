@@ -11,7 +11,12 @@ import (
 	"os"
 	"reflect"
 	"strings"
+
+	"github.com/kovacou/go-convert"
 )
+
+// NoPrefix is an empty string. Used by default for Unmarshal.
+const NoPrefix = ""
 
 // Parse the env variable and trim spaces.
 func Parse(key string) string {
@@ -36,6 +41,14 @@ func Lookup(key string) (string, bool) {
 
 // Unmarshal will fill the given struct with the environment variables.
 func Unmarshal(v interface{}) error {
+	return UnmarshalWithPrefix(v, NoPrefix)
+}
+
+// Unmarshal will fill the given struct with the environment variables prefixed with the given prefix.
+// Only fields with tag `env:""` specified will be filled.
+func UnmarshalWithPrefix(v interface{}, prefix string) error {
+	prefix = strings.ToUpper(strings.TrimSpace(prefix))
+
 	e := reflect.ValueOf(v)
 	if e.Kind() == reflect.Ptr && !e.IsNil() {
 		e = e.Elem()
@@ -52,7 +65,7 @@ func Unmarshal(v interface{}) error {
 		if vf.Kind() == reflect.Struct {
 			if vf.Addr().CanInterface() {
 				v := vf.Addr().Interface()
-				if err := Unmarshal(v); err != nil {
+				if err := UnmarshalWithPrefix(v, prefix); err != nil {
 					return err
 				}
 			}
@@ -61,6 +74,10 @@ func Unmarshal(v interface{}) error {
 		if vf.CanSet() || vf.Kind() == reflect.Map {
 			tf := t.Field(i)
 			if tag := tf.Tag.Get("env"); tag != "" {
+				if prefix != "" {
+					tag = fmt.Sprintf("%s_%s", prefix, strings.ToUpper(convert.SnakeCase(tf.Name)))
+				}
+
 				if v, ok := os.LookupEnv(tag); ok {
 					if err := setValue(tf.Type, vf, v); err != nil {
 						return err
