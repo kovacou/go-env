@@ -1,7 +1,7 @@
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/kovacou/go-convert v0.0.0-20201031202147-3db492f9f2c3 h1:d8bTC1yf8iXm5HFbr8ncuaz7vxKAWRLFiT0BXTAneVk=
-github.com/kovacou/go-convert v0.0.0-20201031202147-3db492f9f2c3/go.mod h1:0dWvyLFiKUoQTXh644atvqwXu+tqwdVN4dcEDwQXx7Y=
+github.com/kovacou/go-convert v0.0.2 h1:7YLg0dj3VjF9xL0yofTc7is4Zo6UGPf4ninOVUKqMpY=
+github.com/kovacou/go-convert v0.0.2/go.mod h1:W0aHedXQBDqsPKz/SUzRUolN7vgBrcYjCGJlz2e6/Ho=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
