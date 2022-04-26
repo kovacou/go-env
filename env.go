@@ -29,7 +29,7 @@ func Prefix(prefix, key string) string {
 }
 
 // Format will parse the key based on given format.
-func Format(format string, v ...interface{}) string {
+func Format(format string, v ...any) string {
 	return fmt.Sprintf(format, v...)
 }
 
@@ -40,13 +40,13 @@ func Lookup(key string) (string, bool) {
 }
 
 // Unmarshal will fill the given struct with the environment variables.
-func Unmarshal(v interface{}) error {
+func Unmarshal(v any) error {
 	return UnmarshalWithPrefix(v, NoPrefix)
 }
 
-// Unmarshal will fill the given struct with the environment variables prefixed with the given prefix.
+// UnmarshalWithPrefix will fill the given struct with the environment variables prefixed with the given prefix.
 // Only fields with tag `env:""` specified will be filled.
-func UnmarshalWithPrefix(v interface{}, prefix string) error {
+func UnmarshalWithPrefix(v any, prefix string) error {
 	prefix = strings.ToUpper(strings.TrimSpace(prefix))
 
 	e := reflect.ValueOf(v)
@@ -147,7 +147,7 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 			}
 			vf.Set(reflect.ValueOf(svm))
 		case "map[string]interface {}":
-			svm := make(map[string]interface{}, len(vm))
+			svm := make(map[string]any, len(vm))
 			for k, v := range vm {
 				svm[k] = v
 			}
@@ -199,7 +199,7 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 			}
 			vf.Set(reflect.ValueOf(svs))
 		case "[]interface {}":
-			svs := make([]interface{}, n, n)
+			svs := make([]any, n, n)
 			for k, v := range vs {
 				svs[k] = v
 			}

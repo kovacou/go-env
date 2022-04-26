@@ -21,6 +21,6 @@ func PrefixString(prefix, key string) string {
 }
 
 // FormatString use a format to parse a env variable as string.
-func FormatString(format string, v ...interface{}) string {
+func FormatString(format string, v ...any) string {
 	return GetString(Format(format, v...))
 }

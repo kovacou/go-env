@@ -22,6 +22,6 @@ func PrefixUint64(prefix, key string) uint64 {
 }
 
 // FormatUint64 use a format to parse a env variable as uint64.
-func FormatUint64(format string, v ...interface{}) uint64 {
+func FormatUint64(format string, v ...any) uint64 {
 	return GetUint64(Format(format, v...))
 }

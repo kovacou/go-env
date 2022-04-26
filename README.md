@@ -56,11 +56,11 @@ func main() {
     - `uint64`, `*uint64`, 
     - `float64`, `*float64`, 
     - `bool`, `*bool`
-    - `interface{}`
+    - `any`
 - Special types :
     - `time.Duration`, `*time.Duration`
 - Maps :
-    - `map[string]interface{}`
+    - `map[string]any`
     - `map[string]bool`
     - `map[string]int`
     - `map[string]uint`
@@ -69,7 +69,7 @@ func main() {
     - `map[string]float64`
     - `map[string]string`
 - Slices :
-    - `[]interface{}`
+    - `[]any`
     - `[]bool`
     - `[]int`
     - `[]uint`

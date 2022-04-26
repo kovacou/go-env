@@ -22,6 +22,6 @@ func PrefixUint(prefix, key string) uint {
 }
 
 // FormatUint use a format to parse a env variable as uint.
-func FormatUint(format string, v ...interface{}) uint {
+func FormatUint(format string, v ...any) uint {
 	return GetUint(Format(format, v...))
 }
