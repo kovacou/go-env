@@ -11,8 +11,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
-
-	"github.com/kovacou/go-convert"
+	"unicode"
 )
 
 // NoPrefix is an empty string. Used by default for Unmarshal.
@@ -75,7 +74,7 @@ func UnmarshalWithPrefix(v any, prefix string) error {
 			tf := t.Field(i)
 			if tag := tf.Tag.Get("env"); tag != "" {
 				if prefix != "" {
-					tag = fmt.Sprintf("%s_%s", prefix, strings.ToUpper(convert.SnakeCase(tf.Name)))
+					tag = fmt.Sprintf("%s_%s", prefix, strings.ToUpper(snakeCase(tf.Name)))
 				}
 
 				if v, ok := os.LookupEnv(tag); ok {
@@ -163,43 +162,43 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 		case "[]string":
 			vf.Set(reflect.ValueOf(vs))
 		case "[]bool":
-			svs := make([]bool, n, n)
+			svs := make([]bool, n)
 			for k, v := range vs {
 				svs[k] = toBool(v)
 			}
 			vf.Set(reflect.ValueOf(svs))
 		case "[]int":
-			svs := make([]int, n, n)
+			svs := make([]int, n)
 			for k, v := range vs {
 				svs[k] = toInt(v)
 			}
 			vf.Set(reflect.ValueOf(svs))
 		case "[]uint":
-			svs := make([]uint, n, n)
+			svs := make([]uint, n)
 			for k, v := range vs {
 				svs[k] = toUint(v)
 			}
 			vf.Set(reflect.ValueOf(svs))
 		case "[]int64":
-			svs := make([]int64, n, n)
+			svs := make([]int64, n)
 			for k, v := range vs {
 				svs[k] = toInt64(v)
 			}
 			vf.Set(reflect.ValueOf(svs))
 		case "[]uint64":
-			svs := make([]uint64, n, n)
+			svs := make([]uint64, n)
 			for k, v := range vs {
 				svs[k] = toUint64(v)
 			}
 			vf.Set(reflect.ValueOf(svs))
 		case "[]float64":
-			svs := make([]float64, n, n)
+			svs := make([]float64, n)
 			for k, v := range vs {
 				svs[k] = toFloat64(v)
 			}
 			vf.Set(reflect.ValueOf(svs))
 		case "[]interface {}":
-			svs := make([]any, n, n)
+			svs := make([]any, n)
 			for k, v := range vs {
 				svs[k] = v
 			}
@@ -228,4 +227,20 @@ func setValue(t reflect.Type, vf reflect.Value, v string) (err error) {
 	}
 
 	return
+}
+
+func snakeCase(in string) string {
+	runes := []rune(in)
+	b := strings.Builder{}
+	b.Grow(len(in))
+
+	for i, v := range runes {
+		if i+1 < len(in) && unicode.IsLower(v) && unicode.IsUpper(runes[i+1]) {
+			b.WriteRune(v)
+			b.WriteRune('_')
+		} else {
+			b.WriteRune(unicode.ToLower(v))
+		}
+	}
+	return b.String()
 }
